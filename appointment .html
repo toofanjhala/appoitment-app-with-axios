@@ -44,7 +44,7 @@
 
        //localStorage.setItem(`${Email.value}` ,JSON.stringify(obj));
        axios
-        .post('https://crudcrud.com/api/063b1819babf4d88af563393f6d38364/userDetail', obj)
+        .post('https://crudcrud.com/api/ab9c685fab69446a9abccc218a66d62a/userDetail', obj)
         .then(res => showNewUser(res.data))
         .catch(err => console.error(err));
 
@@ -52,48 +52,51 @@
       Email.value=""
     }
 
-      window.addEventListener("DOMContentLoaded", () => {
+
+
+window.addEventListener("DOMContentLoaded", () => {
         axios
-        .get('https://crudcrud.com/api/063b1819babf4d88af563393f6d38364/userDetail')
+        .get('https://crudcrud.com/api/ab9c685fab69446a9abccc218a66d62a/userDetail')
         .then(
             res => {
             for(var i=0;i<res.data.length;i++)
             {
                  showNewUser(res.data[i])
+                 
             }
          } )
         .catch(err => console.error(err));
-       
-    });
-
-       function showNewUser(obj){
-
-      //const userdetailobj=JSON.parse(userdetailstring)
+  });
 
 
-        const parentnode=document.getElementById('list');
-        const childHTML=`<li id="${obj.email}"> ${obj.name}-${obj.email}
-            <button  onclick=edituser('${obj.email}')  class="edit" style="background:#3630a3;color:white;" >edit</button> 
-            <button  onclick=deleteuser('${obj.email}') class="delete" style="background:red;color:white;" id="delete" >Delete</button>
+  function showNewUser(obj)
+     {
+       const parentnode=document.getElementById('list');
+       const childHTML=`<li id="${obj._id}"> ${obj.name}-${obj.email}
+            <button  onclick=edituser('${obj._id}')  class="edit" style="background:#3630a3;color:white;" >edit</button> 
+            <button  onclick=deleteuser('${obj._id}') class="delete" style="background:red;color:white;" id="delete" >Delete</button>
             </li>`
         parentnode.innerHTML=parentnode.innerHTML + childHTML;
-       }
+     }
 
-       function deleteuser(emailid)
+       function deleteuser(userid)
        {
-        axios
-        .delete('https://jsonplaceholder.typicode.com/todos/emailid')
-        .then(res => showOutput(res))
+       
+        axios.delete(`https://crudcrud.com/api/ab9c685fab69446a9abccc218a66d62a/userDetail/${userid}`)
+        .then((res) => {
+            removeitemfromscreen(userid)
+            
+        })
         .catch(err => console.error(err));
-        
-        removeitemfromscreen(emailid);
+      };
 
-       }
+       
+       
 
-       function removeitemfromscreen(emailid)
+       function removeitemfromscreen(userid)
        {
         const parentnode=document.getElementById('list');
-        const childnode=document.getElementById(emailid);
+        const childnode=document.getElementById(userid);
         parentnode.removeChild(childnode);
 
 

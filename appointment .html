@@ -44,7 +44,7 @@
 
        //localStorage.setItem(`${Email.value}` ,JSON.stringify(obj));
        axios
-        .post('https://crudcrud.com/api/4e7f9c7f359948e39efeae70f9ec8574/userDetail', obj)
+        .post('https://crudcrud.com/api/063b1819babf4d88af563393f6d38364/userDetail', obj)
         .then(res => showNewUser(res.data))
         .catch(err => console.error(err));
 
@@ -53,17 +53,17 @@
     }
 
       window.addEventListener("DOMContentLoaded", () => {
-        const localStorageobj=localStorage;
-        const localstoragekey=Object.keys(localStorageobj)
-
-        for(var i=0;i<localstoragekey.length;i++)
-
-        {
-            const key=localstoragekey[i]
-            const userdetailstring=localStorageobj[key];
-            const userdetailobj=JSON.parse(userdetailstring)
-            showNewUser(userdetailobj)
-        }
+        axios
+        .get('https://crudcrud.com/api/063b1819babf4d88af563393f6d38364/userDetail')
+        .then(
+            res => {
+            for(var i=0;i<res.data.length;i++)
+            {
+                 showNewUser(res.data[i])
+            }
+         } )
+        .catch(err => console.error(err));
+       
     });
 
        function showNewUser(obj){
@@ -81,7 +81,11 @@
 
        function deleteuser(emailid)
        {
-        localStorage.removeItem(emailid);
+        axios
+        .delete('https://jsonplaceholder.typicode.com/todos/emailid')
+        .then(res => showOutput(res))
+        .catch(err => console.error(err));
+        
         removeitemfromscreen(emailid);
 
        }
